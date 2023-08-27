@@ -23,7 +23,7 @@ const ProductItem = () => {
   }, []);
 
   return (
-    <div className="container grid grid-cols-2 gap-4">
+    <div className="container grid grid-cols-2 gap-4 lg:grid-cols-5">
 
       {isLoading && (
         <div className='flex items-center justify-center mt-16'>

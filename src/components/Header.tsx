@@ -28,7 +28,7 @@ const Header = () => {
   const handleMenuClick = () => setMenuIsOpen(!menuIsOpen);
 
   return (
-    <div className='container mx-auto p-2 pt-4'>
+    <div className='container mx-auto p-2 pt-4 lg:pt-1'>
       <div className='flex justify-between items-center lg:border-b lg:border-gray-500'>
         <div className='flex items-center p-2 px-3 relative'>
 

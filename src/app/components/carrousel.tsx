@@ -38,9 +38,9 @@ const Carrousel = () => {
   return (
     <div className="mx-auto mt-2 relative group">
 
-      <div className='pt-1 flex'>
+      <div className='pt-1 flex lg:container lg:mx-auto lg:justify-center lg:bg-gray-100'>
         {slides.map((slide, index) => (
-          <div key={index} className={`relative h-[186px] w-full transition-transform ease-in-out duration-500 transform ${index === currentIndex ? 'translate-x-0' : 'translate-x-full hidden'}`}>
+          <div key={index} className={`relative h-[186px] w-full transition-transform ease-in-out duration-500 transform ${index === currentIndex ? 'translate-x-0' : 'translate-x-full hidden'} lg:h-[400px] lg:w-[800px]`}>
             <Image src={slide.slide} alt='Slider' style={{ objectFit: 'cover' }} fill />
           </div>
         ))}
@@ -48,12 +48,12 @@ const Carrousel = () => {
 
 
       <div className='flex justify-between h-1'>
-        <div className='hidden group-hover:block relative top-[-100px] left-3 -translate-x-0 translate-y-[-50%] text-2x1  cursor-pointer'>
-          <BsArrowLeftCircle onClick={prevSlide} size={30} />
+        <div className='hidden group-hover:block relative top-[-100px] left-3 -translate-x-0 translate-y-[-50%] text-2x1 cursor-pointer lg:top-[-200px] lg:left-16'>
+          <BsArrowLeftCircle onClick={prevSlide} size={30} className='lg:h-50 lg:w-50' />
         </div>
 
-        <div className='hidden group-hover:block relative top-[-100px] right-3 -translate-x-0 translate-y-[-50%] text-2x1  cursor-pointer'>
-          <BsArrowRightCircle onClick={nextSlide} size={30} />
+        <div className='hidden group-hover:block relative top-[-100px] right-3 -translate-x-0 translate-y-[-50%] text-2x1 cursor-pointer lg:top-[-200px] lg:right-16'>
+          <BsArrowRightCircle onClick={nextSlide} size={30} className='lg:h-50 lg:w-50' />
         </div>
       </div>
 

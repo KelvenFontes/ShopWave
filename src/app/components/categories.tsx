@@ -40,7 +40,7 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-5">
+    <div className="container mx-auto mt-5 lg:mt-10">
       <h2 className="ml-5 font-semibold text-lg">Categories</h2>
 
       {isLoading && (

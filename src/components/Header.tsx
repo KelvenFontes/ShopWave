@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineLogout, AiOutlineClose } from 'react-icons/ai';
 import { BiSearchAlt } from 'react-icons/bi';
-import { BsFillPersonPlusFill, BsFillPersonFill } from 'react-icons/bs';
+import { BsFillPersonPlusFill, BsFillPersonFill, BsPersonFill } from 'react-icons/bs';
 import { MdOutlinePrivacyTip } from 'react-icons/md';
 import { CgFileDocument } from 'react-icons/cg';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <div className='container mx-auto p-2 pt-4'>
-      <div className='flex justify-between items-center lg:border-b lg:border-grayLighther lg:h-[100px]'>
+      <div className='flex justify-between items-center lg:border-b lg:border-gray-500'>
         <div className='flex items-center p-2 px-3 relative'>
 
           <Link href='/'>
@@ -38,7 +38,7 @@ const Header = () => {
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center justify-between border border-grayPrimary border-solid ml-[3%] mt-1 rounded-lg px-3 w-[500px] pr-4">
+          <div className="hidden lg:flex items-center justify-between border border-grayPrimary border-solid ml-[3%] mt-1 rounded-lg px-3 w-[500px] pr-4 lg:ml-16">
             <input type="text" placeholder='Search...' className='pl-2 h-10 w-[85%] focus:outline-none' />
             <div className='cursor-pointer'>
               <BiSearchAlt size={30} />
@@ -91,6 +91,18 @@ const Header = () => {
             <Image src='/logoName.png' alt='ShopWave' fill />
           </div>
         </Link>
+
+        <div className='pr-2'>
+          <div className='hidden lg:flex lg:items-center'>
+            <BsPersonFill color='#17a2b8' size={34} />
+            <div className='hidden lg:flex flex-col ml-2'>
+              <p>Faça seu <Link href={'/login'} className='text-primary'>login</Link> ou </p>
+              <Link href={'/register'} className='text-primary block lg:inline-block lg:ml-0 mt-1'>
+                cadastre-se
+              </Link>
+            </div>
+          </div>
+        </div>
 
         <div className='pr-2'>
           <Link href={'/cart'}>

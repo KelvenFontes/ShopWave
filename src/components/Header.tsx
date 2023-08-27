@@ -6,7 +6,7 @@ import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineLogout, AiOutlineClose }
 import { BiSearchAlt } from 'react-icons/bi';
 import { BsFillPersonPlusFill, BsFillPersonFill } from 'react-icons/bs';
 import { MdOutlinePrivacyTip } from 'react-icons/md';
-import { CgFileDocument} from 'react-icons/cg';
+import { CgFileDocument } from 'react-icons/cg';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -57,11 +57,11 @@ const Header = () => {
             <div className='z-50 absolute top-12 left-[-8px] w-[260px] h-auto bg-white rounded-lg shadow-md flex flex-col justify-center p-2 pl-4'>
 
               <Link href={'/register'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold  hover:text-primary'><BsFillPersonPlusFill/>Cadastre-se</p>
+                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold  hover:text-primary'><BsFillPersonPlusFill />Cadastre-se</p>
               </Link>
 
               <Link href={'/login'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><BsFillPersonFill/>Acesse agora</p>
+                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><BsFillPersonFill />Acesse agora</p>
               </Link>
 
               {/* <Link href={'/cart'} onClick={() => setMenuIsOpen(false)}>
@@ -73,11 +73,11 @@ const Header = () => {
               </Link> */}
 
               <Link href={'/'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><CgFileDocument/>Terms & Conditions</p>
+                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><CgFileDocument />Terms & Conditions</p>
               </Link>
 
               <Link href={'/'} onClick={() => setMenuIsOpen(false)} className='pb-2'>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><MdOutlinePrivacyTip/>Privacy Policy</p>
+                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><MdOutlinePrivacyTip />Privacy Policy</p>
               </Link>
 
               {/* <p className='flex items-center justify-center gap-2 text-primary pt-1 text-lg font-semibold border-t border-gray-800 w-40 cursor-pointer hover:font-bold'><AiOutlineLogout onClick={handleLogoutClick} size={22}/>Logout</p> */}
@@ -101,7 +101,9 @@ const Header = () => {
       </div>
       <div className="flex items-center justify-between border border-grayPrimary border-solid ml-[3%] mt-1 rounded-lg px-3 w-[95%] pr-4 lg:hidden">
         <input type="text" placeholder='Search...' className='pl-2 h-10 w-[85%] focus:outline-none' />
-        <BiSearchAlt size={30} />
+        <div className='cursor-pointer'>
+          <BiSearchAlt size={30} />
+        </div>
       </div>
     </div>
 

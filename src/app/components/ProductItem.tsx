@@ -22,7 +22,7 @@ const ProductItem = () => {
   }, []);
 
   return (
-    <div className="container mx-0.5 grid grid-cols-2 gap-4">
+    <div className="container grid grid-cols-2 gap-4">
       {products.map((product: any) => (
         <Link href={`/product/${product.id}`} key={product.id}>
           <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden h-88 hover:shadow-xl transition duration-200">

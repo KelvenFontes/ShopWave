@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import { formatPrice } from "@/providers/formatCurrency";
 import Image from "next/image";
 
@@ -23,25 +24,30 @@ const ProductDetails = async ({ params }: { params: { productId: string } }) => 
           <Image src="/produto-sem-imagem.png" alt="Default Product" layout="fill" objectFit="cover" />
         )}
       </div>
-      <div className="mt-5">
+      <div className="mt-5 mx-1.5">
         <h2 className="text-2xl font-semibold">{product.nome}</h2>
         {/* <p className="text-gray-600 mt-2">{product.descricao}</p> */}
         <p className="text-primaryDarker text-xl font-bold mt-1">{formatPrice(product.preco)}</p>
-        <p className="mt-6 text-gray-500">Stock: {product.estoque}</p>
-        <button className="mt-4 bg-primary hover:bg-primaryDarker text-white px-6 py-3 rounded-md font-semibold transition duration-300">
-          Add to Cart
-        </button>
+        <p className="mt-2 text-gray-500">Stock: {product.estoque}</p>
+        <div className="flex items-center justify-between">
+          <Button variant="outlined" className="w-[48%] mt-2 font-semibold text-lg">
+            Add to Cart
+          </Button>
+          <Button variant="border" className="w-[48%] mt-2 font-semibold text-lg">
+            buy now
+          </Button>
+        </div>
       </div>
 
 
-      <div className="mt-10 border-b pb-4 border-gray-300 bg-gray-400">
+      <div className="mt-10 mx-1.5 border-b pb-4 border-gray-300">
         <h2 className="text-2xl font-semibold mb-4">Description</h2>
         <p className="text-gray-700 leading-relaxed">
           {product.descricao}
         </p>
       </div>
 
-      <div className="my-10 border-b pb-1 border-gray-300">
+      <div className="my-10 mx-1.5 border-b pb-1 border-gray-300">
         <h2 className="text-2xl font-semibold mb-4">Product Details</h2>
         <table className="w-full border rounded-lg overflow-hidden">
           <tbody>

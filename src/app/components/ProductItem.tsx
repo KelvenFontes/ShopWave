@@ -22,30 +22,29 @@ const ProductItem = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="container mx-0.5 grid grid-cols-2 gap-4">
       {products.map((product: any) => (
         <Link href={`/product/${product.id}`} key={product.id}>
-          <div className="bg-white shadow-md rounded-lg overflow-hidden h-60 hover:shadow-xl transition duration-200">
-            <div className="p-4 flex flex-col h-full">
-              <div className="mt-4">
+          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden h-88 hover:shadow-xl transition duration-200">
+            <div className="p-4 flex flex-col h-full justify-center">
+              <div className="w-9/10 mt-1"> {/* Defina a largura da imagem */}
                 {product.imagem ? (
-                  <Image src={product.imagem} alt={product.nome} height={100} width={100} />
+                  <Image src={product.imagem} alt={product.nome} height={100} width={100} className="w-full" />
                 ) : (
-                  <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} />
+                  <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
                 )}
               </div>
               <div className="flex-grow">
                 <h2 className="text-xl font-semibold mb-2">{product.nome}</h2>
                 <p className="text-gray-600">
-                  {product.descricao.length > 30
-                    ? `${product.descricao.slice(0, 30)}...`
+                  {product.descricao.length > 20
+                    ? `${product.descricao.slice(0, 20)}...`
                     : product.descricao}
                 </p>
               </div>
               <p className="text-primaryDarker mt-2 font-bold text-xl">{formatPrice(product.preco)}</p>
               <Button>Add to cart</Button>
             </div>
-
           </div>
         </Link>
       ))}

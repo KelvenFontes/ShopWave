@@ -32,7 +32,7 @@ const ProductDetails = async ({ params }: { params: { productId: string } }) => 
           </p>
           <p className="text-primaryDarker text-xl font-bold mt-1 lg:mt-[-50px]">{formatPrice(product.preco)}</p>
           <p className="mt-2 text-gray-500 lg:mt-[-50px]">Stock: {product.estoque}</p>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between lg:mb-[30px]">
             <Button variant="outlined" className="w-[48%] mt-2 font-semibold text-lg">
               Add to Cart
             </Button>

@@ -33,8 +33,8 @@ const ProductCard = () => {
       <div className="flex">
         <div className="flex-shrink-0 w-24 h-24 mr-4 flex items-center">
           <div className="relative h-24 w-24 mt-6">
-            {product.imagem ? (
-              <Image src={product.imagem} alt={product.nome} height={100} width={100} className="w-full" />
+            {'product.imagem '? (
+              <Image src={''} alt={'product.nome'} height={100} width={100} className="w-full" />
             ) : (
               <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
             )}

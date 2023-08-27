@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { formatPrice } from "@/providers/formatCurrency";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -20,10 +21,6 @@ const ProductItem = () => {
 
   }, []);
 
-  const formatPrice = (price: number) => {
-    return `R$ ${price.toFixed(2)}`;
-  };
-
   return (
     <div className="grid grid-cols-2 gap-4">
       {products.map((product: any) => (
@@ -40,7 +37,7 @@ const ProductItem = () => {
               <div className="flex-grow">
                 <h2 className="text-xl font-semibold mb-2">{product.nome}</h2>
                 <p className="text-gray-600">
-                  {product.descricao.length > 50
+                  {product.descricao.length > 30
                     ? `${product.descricao.slice(0, 30)}...`
                     : product.descricao}
                 </p>

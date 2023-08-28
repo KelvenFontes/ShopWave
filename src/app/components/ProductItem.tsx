@@ -42,7 +42,7 @@ const ProductItem = () => {
           <Link href={`/product/${product.id}`} key={product.id}>
             <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden h-88 hover:shadow-xl transition duration-200">
               <div className="p-4 flex flex-col h-full justify-center">
-                <div className="w-9/10 mt-1"> {/* Defina a largura da imagem */}
+                <div className="w-9/10 mt-1">
                   {product.imagem ? (
                     <Image src={product.imagem} alt={product.nome} height={100} width={100} className="w-full" />
                   ) : (
@@ -58,7 +58,7 @@ const ProductItem = () => {
                   </p>
                 </div>
                 <p className="text-primaryDarker mt-2 font-bold text-xl">{formatPrice(product.preco)}</p>
-                <Button>Add to cart</Button>
+                {/* <Button>Add to cart</Button> */}
               </div>
             </div>
           </Link>

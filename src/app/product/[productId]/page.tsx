@@ -1,17 +1,45 @@
+"use client"
+
 import Button from "@/components/Button";
 import { formatPrice } from "@/providers/formatCurrency";
+import CartItem from "@/types/Cart";
 import Image from "next/image";
+import { useState } from "react";
 
-const getProductDetails = async (productId: string) => {
-  const response = await fetch(`https://api-fatec.onrender.com/api/v1/product/${productId}`);
-  const products = await response.json();
-
-  return products;
-};
-
+// eslint-disable-next-line @next/next/no-async-client-component
 const ProductDetails = async ({ params }: { params: { productId: string } }) => {
 
+  const getProductDetails = async (productId: string) => {
+    const response = await fetch(`https://api-fatec.onrender.com/api/v1/product/${productId}`);
+    const products = await response.json();
+
+    return products;
+  };
+
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  const handleAddToCart = (productId: string) => {
+    const newItem: CartItem = {
+      productId, quantity: 1,
+      id: ""
+    }; // Defina a quantidade inicial como 1
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    // Verifique se o produto já existe no carrinho
+    const existingItemIndex = existingCart.findIndex((item: { productId: string; }) => item.productId === productId);
+
+    if (existingItemIndex !== -1) {
+      existingCart[existingItemIndex].quantity += 1; // Se existe, aumente a quantidade
+    } else {
+      existingCart.push(newItem); // Se não existe, adicione o novo item
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    setCart(existingCart);
+  };
+
   const product = await getProductDetails(params.productId);
+
 
   if (!product) return null;
 
@@ -33,12 +61,12 @@ const ProductDetails = async ({ params }: { params: { productId: string } }) => 
           <p className="text-primaryDarker text-xl font-bold mt-1 lg:mt-[-50px]">{formatPrice(product.preco)}</p>
           <p className="mt-2 text-gray-500 lg:mt-[-50px]">Stock: {product.estoque}</p>
           <div className="flex items-center justify-between lg:mb-[30px]">
-            <Button variant="outlined" className="w-[48%] mt-2 font-semibold text-lg">
+            <Button variant="outlined" className="w-[48%] mt-2 font-semibold text-lg" onClick={() => handleAddToCart(product.id)}>
               Add to Cart
             </Button>
-            <Button variant="border" className="w-[48%] mt-2 font-semibold text-lg">
+            {/* <Button variant="border" className="w-[48%] mt-2 font-semibold text-lg">
               buy now
-            </Button>
+            </Button> */}
           </div>
         </div>
 
@@ -70,7 +98,7 @@ const ProductDetails = async ({ params }: { params: { productId: string } }) => 
                 <td className="font-semibold px-6 py-3">Weight:</td>
                 <td className="px-6 py-3">{product.peso} kg</td>
               </tr>
-              {/* Adicione mais linhas de detalhes aqui */}
+
             </tbody>
           </table>
         </div>

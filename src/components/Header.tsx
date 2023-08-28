@@ -1,29 +1,37 @@
 'use client'
 
 import Image from 'next/image';
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineLogout, AiOutlineClose } from 'react-icons/ai';
 import { BiSearchAlt } from 'react-icons/bi';
-import { BsFillPersonPlusFill, BsFillPersonFill, BsPersonFill } from 'react-icons/bs';
+import { BsFillPersonPlusFill, BsFillPersonFill, BsPersonFill, BsBoxFill } from 'react-icons/bs';
 import { MdOutlinePrivacyTip } from 'react-icons/md';
 import { CgFileDocument } from 'react-icons/cg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const Header = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const { status, data } = useSession();
+  const [nomeLocalStorage, setNomeLocalStorage] = useState<string|null>("");
+  const [sobrenomeLocalStorage, setSobrenomeLocalStorage] = useState<string|null>("");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const nome = localStorage.getItem("nome");
+      const sobrenome = localStorage.getItem("sobrenome");
+      setNomeLocalStorage(nome);
+      setSobrenomeLocalStorage(sobrenome);
+    }
+  }, []);
+  // const handleLoginClick = () => {
+  //   signIn();
+  // };
 
-  const handleLoginClick = () => {
-    signIn();
-  };
-
-  const handleLogoutClick = () => {
-    setMenuIsOpen(false);
-    signOut();
-  };
+  // const handleLogoutClick = () => {
+  //   setMenuIsOpen(false);
+  //   signOut();
+  // };
 
   const handleMenuClick = () => setMenuIsOpen(!menuIsOpen);
 
@@ -51,36 +59,63 @@ const Header = () => {
             <AiOutlineClose size={25} color='#17a2b8' onClick={handleMenuClick} className='cursor-pointer lg:hidden' />
           )}
 
-          {/* <Image width={35} height={35} src={data.user.image!} alt={data.user.name!} className='rounded-full shadow-md' /> */}
           {menuIsOpen && (
 
             <div className='z-50 absolute top-12 left-[-8px] w-[260px] h-auto bg-white rounded-lg shadow-md flex flex-col justify-center p-2 pl-4'>
 
-              <Link href={'/register'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold  hover:text-primary'><BsFillPersonPlusFill />Cadastre-se</p>
-              </Link>
+              {nomeLocalStorage && sobrenomeLocalStorage ? (
+                <>
+                  <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold  hover:text-primary'>
+                    <BsFillPersonFill />Bem-vindo, {nomeLocalStorage} {sobrenomeLocalStorage}
+                  </p>
 
-              <Link href={'/login'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><BsFillPersonFill />Acesse agora</p>
-              </Link>
+                  <Link href={'/cart'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><AiOutlineShoppingCart />Carrinho</p>
+                  </Link>
 
-              {/* <Link href={'/cart'} onClick={() => setMenuIsOpen(false)}>
-                <p className='text-xl font-medium p-1 hover:font-semibold'>Carrinho</p>
-              </Link>
+                  <Link href={'/myRequests'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><BsBoxFill />Meus pedidos</p>
+                  </Link>
 
-              <Link href={'/myRequests'} onClick={() => setMenuIsOpen(false)}>
-                <p className='text-xl font-medium p-1 hover:font-semibold'>Meus pedidos</p>
-              </Link> */}
+                  <Link href={'/'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><CgFileDocument />Terms & Conditions</p>
+                  </Link>
 
-              <Link href={'/'} onClick={() => setMenuIsOpen(false)}>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><CgFileDocument />Terms & Conditions</p>
-              </Link>
+                  <Link href={'/'} onClick={() => setMenuIsOpen(false)} className='pb-2'>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><MdOutlinePrivacyTip />Privacy Policy</p>
+                  </Link>
+                  <p
+                    className='flex items-center justify-center gap-2 text-primary pt-1 text-lg font-semibold border-t border-gray-800 w-[100%] cursor-pointer hover:font-bold'
+                    onClick={() => {
+                      setMenuIsOpen(false);
+                      localStorage.removeItem("nome");
+                      localStorage.removeItem("sobrenome");
+                      window.location.reload();
+                    }}
+                  >
+                    <AiOutlineLogout size={22} />Logout
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Link href={'/user/register'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold  hover:text-primary'><BsFillPersonPlusFill />Cadastre-se</p>
+                  </Link>
 
-              <Link href={'/'} onClick={() => setMenuIsOpen(false)} className='pb-2'>
-                <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><MdOutlinePrivacyTip />Privacy Policy</p>
-              </Link>
+                  <Link href={'/user/login'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><BsFillPersonFill />Acesse agora</p>
+                  </Link>
 
-              {/* <p className='flex items-center justify-center gap-2 text-primary pt-1 text-lg font-semibold border-t border-gray-800 w-40 cursor-pointer hover:font-bold'><AiOutlineLogout onClick={handleLogoutClick} size={22}/>Logout</p> */}
+                  <Link href={'/'} onClick={() => setMenuIsOpen(false)}>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><CgFileDocument />Terms & Conditions</p>
+                  </Link>
+
+                  <Link href={'/'} onClick={() => setMenuIsOpen(false)} className='pb-2'>
+                    <p className='flex items-center gap-2 text-xl font-medium p-2 hover:font-semibold hover:text-primary'><MdOutlinePrivacyTip />Privacy Policy</p>
+                  </Link>
+
+                </>
+              )}
             </div>
           )}
 
@@ -96,8 +131,8 @@ const Header = () => {
           <div className='hidden lg:flex lg:items-center'>
             <BsPersonFill color='#17a2b8' size={34} />
             <div className='hidden lg:flex flex-col ml-2'>
-              <p>Faça seu <Link href={'/login'} className='text-primary'>login</Link> ou </p>
-              <Link href={'/register'} className='text-primary block lg:inline-block lg:ml-0 mt-1'>
+              <p>Faça seu <Link href={'/user/login'} className='text-primary'>login</Link> ou </p>
+              <Link href={'/user/register'} className='text-primary block lg:inline-block lg:ml-0 mt-1'>
                 cadastre-se
               </Link>
             </div>
@@ -117,7 +152,7 @@ const Header = () => {
           <BiSearchAlt size={30} />
         </div>
       </div>
-    </div>
+    </div >
 
   );
 }

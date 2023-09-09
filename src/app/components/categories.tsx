@@ -29,6 +29,7 @@ const Categories = () => {
   const fetchCategories = async () => {
     const response = await fetch('https://api-fatec.onrender.com/api/v1/category');
     const data = await response.json();
+    console.log(data);
     setCategories(data);
     setIsLoading(false);
   };
@@ -39,7 +40,18 @@ const Categories = () => {
 
   }, []);
 
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+
   return (
+
     <div className="container mx-auto mt-5 lg:mt-10">
       <h2 className="ml-5 font-semibold text-lg lg:hidden">Categories</h2>
 
@@ -60,62 +72,31 @@ const Categories = () => {
           <SlArrowLeft className='opacity-50 cursor-pointer' onClick={slideLeft} size={40} />
           <div id='slider' className='w-full h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide lg:flex lg:items-center lg:justify-center'>
 
-            {categories.map((category: any) => (
-              <div key={category.id} className='inline-block cursor-pointer pr-6'>
+            {categories.map((category: any) => {
+              const textColor = getRandomColor();
 
-                {category.nome === 'Varejista' && (
-                  <Link href={`/products/search/${category.id}`}>
-                    <div className='text-orange-400 flex flex-col items-center justify-center lg:mr-10'>
+              return (
+                <div key={category.id} className='inline-block cursor-pointer pr-6'>
+                  <Link href={`/product/category/${category.id}`}>
+                    <div
+                      className='flex flex-col items-center justify-center lg:mr-10'
+                      style={{
+                        color: textColor,
+                      }}
+                    >
                       <MdStore size={40} className='lg:h-20 lg:w-20' />
-                      <p className='font-semibold lg:text-lg'>Stores</p>
+                      <p className='font-semibold lg:text-lg'>{category.nome}</p>
                     </div>
                   </Link>
-                )}
-
-                {category.nome === 'Celulares' && (
-                  <Link href={`/products/search/${category.id}`}>
-                    <div className='text-blue-500 flex flex-col items-center justify-center lg:mr-10'>
-                      <BsPhone size={40} className='lg:h-20 lg:w-20' />
-                      <p className='font-semibold'>Phones</p>
-                    </div>
-                  </Link>
-                )}
-
-                {category.nome === 'Tablets' && (
-                  <Link href={`/products/search/${category.id}`}>
-                    <div className='text-gray-500 flex flex-col items-center justify-center lg:mr-10'>
-                      <AiTwotoneTablet size={40} className='lg:h-20 lg:w-20' />
-                      <p className='font-semibold'>Tablet</p>
-                    </div>
-                  </Link>
-                )}
-
-                {category.nome === 'Computadores' && (
-                  <Link href={`/products/search/${category.id}`}>
-                    <div className='text-primary flex flex-col items-center justify-center lg:mr-10'>
-                      <HiMiniComputerDesktop size={40} className='lg:h-20 lg:w-20' />
-                      <p className='font-semibold'>Computer</p>
-                    </div>
-                  </Link>
-                )}
-
-                {category.nome === 'Notebooks' && (
-                  <Link href={`/products/search/${category.id}`}>
-                    <div className='text-purple-500 flex flex-col items-center justify-center lg:mr-10'>
-                      <MdOutlineComputer size={40} className='lg:h-20 lg:w-20' />
-                      <p className='font-semibold'>Notebook</p>
-                    </div>
-                  </Link>
-                )}
-
-              </div>
-
-            ))}
+                </div>
+              );
+            })}
 
           </div>
           <SlArrowRight className='opacity-50 cursor-pointer' onClick={slideRight} size={40} />
         </div>
-      )}
+      )
+      }
 
     </div >
 

@@ -28,11 +28,11 @@ const Cart = () => {
     }
   }, []);
 
-    const handleRemoveProduct = (productId: string) => {
-      const updatedCartItems = cartItems.filter(item => item.productId !== productId);
-      setCartItems(updatedCartItems);
-      localStorage.setItem("cart", JSON.stringify(updatedCartItems));
-    };
+  const handleRemoveProduct = (productId: string) => {
+    const updatedCartItems = cartItems.filter(item => item.productId !== productId);
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+  };
 
   return (
     <div className='container mx-auto pl-2 mt-8'>
@@ -44,20 +44,11 @@ const Cart = () => {
         <h1 className="font-bold text-xl">My Cart</h1>
       </div>
 
-      {isCustomerRegistered ? (
-        <>
-          {cartItems.map((cartItem, index) => (
-            <ProductCard key={index} product={cartItem.productId} quantity={cartItem.quantity} onRemove={() => handleRemoveProduct(cartItem.productId)} />
-          ))}
-        </>
-      ) : (
-        <div className="mt-4">
-          <p>Por favor, cadastre-se para visualizar o carrinho.</p>
-          <Link href={"/register"}>
-            <p className="text-blue-500 hover:underline">Cadastre-se</p>
-          </Link>
-        </div>
-      )}
+
+      {cartItems.map((cartItem, index) => (
+        <ProductCard key={index} product={cartItem.productId} quantity={cartItem.quantity} onRemove={() => handleRemoveProduct(cartItem.productId)} />
+      ))}
+
     </div>
 
   );

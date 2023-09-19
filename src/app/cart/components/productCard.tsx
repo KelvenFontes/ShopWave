@@ -3,11 +3,12 @@
 import { BsTrash } from 'react-icons/bs';
 import Image from "next/image";
 import { formatPrice } from '@/providers/formatCurrency';
+
 import { useEffect, useState } from 'react';
 import Produto from '@/types/Product';
 
 interface ProductCardProps {
-  product: string,
+  product: any,
   quantity: number;
   onRemove: () => void;
 }
@@ -25,6 +26,7 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
       const response = await fetch(`https://api-fatec.onrender.com/api/v1/product/${product}`);
       const data = await response.json();
       setProduto(data);
+      console.log(data)
     };
 
     Products();
@@ -57,8 +59,10 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
       <div className="flex">
         <div className="flex-shrink-0 w-24 h-24 mr-4 flex items-center">
           <div className="relative h-24 w-24 mt-6">
-            {false ? (
-              <Image src={''} alt={'product.nome'} height={100} width={100} className="w-full" />
+
+
+            {produto && produto.images && produto.images.length > 0 ? (
+              <Image src={produto.images[0].image} alt={produto.nome} height={100} width={100} className="w-full" />
             ) : (
               <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
             )}
@@ -70,9 +74,14 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
             {produto.descricao && produto.descricao.length > 30
               ? `${produto.descricao.slice(0, 30)}...`
               : produto.descricao}
-
           </p>
-          <p className="text-primaryDarker font-bold mt-2">{formatPrice(19)}</p>
+          <p className="text-primaryDarker font-bold mt-2">
+            {produto.preco !== undefined ? (
+              formatPrice(produto.preco)
+            ) : (
+              formatPrice(0)
+            )}
+          </p>
           <div className="flex items-center mt-2">
             <button className="text-primary hover:text-primaryDarker mr-2" onClick={decreaseQuantity} >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -2,23 +2,25 @@
 
 import { BsTrash } from 'react-icons/bs';
 import Image from "next/image";
+// import { useRouter } from 'next/router';
 import { formatPrice } from '@/providers/formatCurrency';
 
 import { useEffect, useState } from 'react';
 import Produto from '@/types/Product';
+import Link from 'next/link';
 
 interface ProductCardProps {
   product: any,
   quantity: number;
+  value: number
   onRemove: () => void;
+  onQuantityChange: (productId: string, currentQuantity: number, action: "decrement" | "increment") => void;
 }
 
-const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
+const ProductCard = ({ product, value, quantity, onRemove, onQuantityChange }: ProductCardProps) => {
 
   const [quantiti, setQuantity] = useState(quantity);
   const [produto, setProduto] = useState<Produto[] | any>([]);
-
-
 
   useEffect(() => {
 
@@ -34,20 +36,22 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
   }, [product]);
 
 
-
   const increaseQuantity = () => {
     setQuantity(quantiti + 1);
+    console.log(produto.id)
+    onQuantityChange(produto.id, quantiti + 1, "increment");
   };
 
   const decreaseQuantity = () => {
     if (quantiti > 1) {
       setQuantity(quantiti - 1);
+      onQuantityChange(produto.id, quantiti - 1, "decrement");
     }
   };
 
   const handleRemove = () => {
-    // Aqui você pode remover o produto do carrinho (estado) e atualizar o localStorage
     onRemove();
+    window.location.reload();
   };
 
   if (!produto) {
@@ -55,29 +59,30 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
   }
 
   return (
-    <div className="bg-gray-50 shadow-md rounded-lg p-4 mt-3 w-[90%] ml-[5%]">
+    <div className="bg-gray-100 shadow-md rounded-lg p-4 my-3 w-[90%] ml-[5%] lg:w-[130%]">
+
       <div className="flex">
         <div className="flex-shrink-0 w-24 h-24 mr-4 flex items-center">
           <div className="relative h-24 w-24 mt-6">
-
-
-            {produto && produto.images && produto.images.length > 0 ? (
-              <Image src={produto.images[0].image} alt={produto.nome} height={100} width={100} className="w-full" />
-            ) : (
-              <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
-            )}
+            <Link href={`/product/${produto.id}`}>
+              {produto && produto.images && produto.images.length > 0 ? (
+                <Image src={produto.images[0].image_path} alt={produto.desc} height={100} width={100} className="w-full" />
+              ) : (
+                <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
+              )}
+            </Link>
           </div>
         </div>
         <div className="flex-grow">
-          <h2 className="text-lg font-semibold">{produto.nome}</h2>
-          <p className="text-gray-600 text-sm">
+          <h2 className="text-lg font-semibold">{produto.desc}</h2>
+          {/* <p className="text-gray-600 text-sm">
             {produto.descricao && produto.descricao.length > 30
               ? `${produto.descricao.slice(0, 30)}...`
               : produto.descricao}
-          </p>
+          </p> */}
           <p className="text-primaryDarker font-bold mt-2">
-            {produto.preco !== undefined ? (
-              formatPrice(produto.preco)
+            {value !== undefined ? (
+              formatPrice(value)
             ) : (
               formatPrice(0)
             )}
@@ -99,6 +104,7 @@ const ProductCard = ({ product, quantity, onRemove }: ProductCardProps) => {
 
         </div>
       </div>
+
       <div className="mt-4 border-t border-gray-400">
         <button className="flex items-center gap-2 text-red-600 hover:text-[#ff0000] hover:font-semibold text-base mt-3" onClick={handleRemove}>
           <BsTrash />

@@ -41,28 +41,28 @@ const ProductItem = () => {
       {!isLoading &&
         products.map((product: any) => (
           <Link href={`/product/${product.id}`} key={product.id}>
-            <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden h-88 hover:shadow-xl transition duration-200">
+            <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden h-96 hover:shadow-xl transition duration-200">
               <div className="p-4 flex flex-col h-full justify-center">
                 <div className="w-9/10 mt-1">
                   {product && product.images && product.images.length > 0 ? (
-                    <Image src={product.images[0].image} alt={product.nome} height={100} width={100} className="w-full" />
+                    <Image src={product.images[0].image_path} alt={product.nome} height={100} width={100} className="w-full" />
                   ) : (
                     <Image src="/produto-sem-imagem.png" alt="Default Product" height={100} width={100} className="w-full" />
                   )}
                 </div>
                 <div className="flex-grow">
                   <h2 className="text-xl font-semibold mb-2">
-                    {product.nome.length > 26
-                      ? `${product.nome.slice(0, 26)}...`
-                      : product.nome}
+                    {product && product.desc && product.desc.length >= 26
+                      ? `${product.desc.slice(0, 26)}...`
+                      : product.desc}
                   </h2>
-                  <p className="text-gray-600">
-                    {product.descricao.length > 20
-                      ? `${product.descricao.slice(0, 20)}...`
-                      : product.descricao}
-                  </p>
+                  {/* <p className="text-gray-600">
+                    {product && product.desc && product.desc.length > 20
+                      ? `${product.desc.slice(0, 20)}...`
+                      : product.desc}
+                  </p> */}
                 </div>
-                <p className="text-primaryDarker mt-2 font-bold text-xl">{formatPrice(product.preco)}</p>
+                <p className="text-primaryDarker mt-2 font-bold text-xl">{formatPrice(product.price)}</p>
                 {/* <Button>Add to cart</Button> */}
               </div>
             </div>

@@ -8,6 +8,7 @@ import CartItem from "@/types/Cart";
 import Button from "@/components/Button";
 import { formatPrice } from "@/providers/formatCurrency";
 import Loading from "../loading";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
 
@@ -49,12 +50,6 @@ const Cart = () => {
 
   // Função de retorno de chamada para atualizar o total de produtos
   const handleQuantityChange = (productId: string, currentQuantity: number, action: "increment" | "decrement") => {
-    // const newItem: CartItem = {
-    //   productId,
-    //   quantity: currentQuantity + 1, // Aumenta a quantidade em 1
-    //   id: ""
-    // };
-
 
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingItemIndex = existingCart.findIndex(
@@ -96,6 +91,51 @@ const Cart = () => {
     setIsLoading(false);
   };
 
+  const handleBuyClick = async () => {
+    const productPromises = cartItems.map(async (cartItem) => {
+      const response = await fetch(
+        `https://api-fatec.onrender.com/api/v1/product/${cartItem.productId}`
+      );
+
+      const data = await response.json();
+      console.log(data)
+      const itemValue = data.price * cartItem.quantity;
+      return ({
+        name: data.desc, // Substitua com a propriedade correta que contém o nome do produto
+        totalPrice: itemValue, // Substitua com a propriedade correta que contém o preço do produto
+        quantity: cartItem.quantity, // Substitua com a propriedade correta que contém a quantidade do produto
+        price: data.price,
+        images: data.images[0].image_path
+      })
+    });
+
+    // Aguarde todas as Promises serem resolvidas
+    const products = await Promise.all(productPromises);
+
+    const data = {
+      products // Substitua pelo valor desejado
+    };
+
+    const res = await fetch("http://localhost:3000/api/payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Defina o tipo de conteúdo como JSON
+      },
+      body: JSON.stringify(data), // Converte o objeto em uma string JSON
+    });
+
+    if (!res.ok) {
+      return console.log("Ocorreu um erro ao realizar a compra");
+    }
+
+    const { sessionId } = await res.json();
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string);
+
+    await stripe?.redirectToCheckout({ sessionId })
+  };
+
+
   return (
     <div className='container mx-auto pl-2 mt-8'>
 
@@ -115,20 +155,18 @@ const Cart = () => {
               `https://api-fatec.onrender.com/api/v1/product/${cartItem.productId}`
             );
             const data = await response.json();
-            console.log(cartItem.quantity)
+            // console.log(cartItem.quantity)
             const itemValue2 = data.price * cartItem.quantity;
 
             // setItemValue(itemValue2)
 
             return (
-
               <ProductCard key={index} product={cartItem.productId} value={itemValue2} quantity={cartItem.quantity} onRemove={() => handleRemoveProduct(cartItem.productId)} onQuantityChange={handleQuantityChange} />
-
             )
           })}
         </div>
 
-        <div className="lg:w-[30%]">
+        <div className="mx-6 lg:w-[30%]">
           <h3 className="font-semibold text-xl mb-4">Resumo do pedido</h3>
 
           <div>
@@ -150,7 +188,7 @@ const Cart = () => {
           </div>
 
           <div>
-            <Button className="w-[100%] py-2 font-semibold text-xl">
+            <Button className="w-[100%] py-2 font-semibold text-xl" onClick={handleBuyClick}>
               continuar
             </Button>
 

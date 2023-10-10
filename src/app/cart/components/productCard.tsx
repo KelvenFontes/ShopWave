@@ -74,7 +74,11 @@ const ProductCard = ({ product, value, quantity, onRemove, onQuantityChange }: P
           </div>
         </div>
         <div className="flex-grow">
-          <h2 className="text-lg font-semibold">{produto.desc}</h2>
+          <h2 className="text-lg font-semibold">
+            {produto && produto.desc && produto.desc.length >= 26
+              ? `${produto.desc.slice(0, 46)}...`
+              : produto.desc}
+          </h2>
           {/* <p className="text-gray-600 text-sm">
             {produto.descricao && produto.descricao.length > 30
               ? `${produto.descricao.slice(0, 30)}...`
